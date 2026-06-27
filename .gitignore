@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+
+# Datasets
+*.jsonl
+*.json
+*.csv
+!submission.csv
+!sample_submission.csv
+
+# Models
+models/
+!models/.gitkeep
+
+# Cache & Outputs
+cache/
+outputs/explanations/
+outputs/honeypot_report.csv
+outputs/top10_debug.csv
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+backend/
+frontend/
+log.txt

@@ -1,0 +1,35 @@
+team_name: "India Runs Elite"
+primary_contact:
+  name: "Lead Scientist"
+  email: "scientist@indiaruns.ai"
+  phone: "+91-9876543210"
+team_members:
+  - name: "Lead AI Engineer"
+    email: "engineer@indiaruns.ai"
+    role: "ML Architect"
+github_repo: "https://github.com/indiaruns/2026-poc"
+sandbox_link: "offline-local-poc"
+reproduce_command: "python rank.py"
+compute:
+  platform: "Local CPU (Optimized)"
+  cpu_cores: 8
+  ram_gb: 16
+  python_version: "3.11"
+  os: "Windows/Linux"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: true
+  pre_computation_time_minutes: 1
+ai_tools_used:
+  - "Antigravity AI"
+ai_usage_summary: |
+  Advanced agentic reasoning was utilized to architect a multi-stage hybrid ranking system 
+  integrating TF-IDF, Semantic Reranking, and Honeypot detection layers.
+methodology_summary: |
+  State-of-the-art offline ranking using a 5-stage pipeline:
+  1. Fast Hybrid Retrieval (TF-IDF + Skill Match)
+  2. Semantic Reranking (all-MiniLM-L6-v2)
+  3. Behavior & Reliability scoring
+  4. Production-evidence capability scoring
+  5. Explainable final rank generation with specific boosters/penalties.
+  Performance optimized via parquet caching and parallelized feature extraction.
