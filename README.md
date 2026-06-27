@@ -1,82 +1,208 @@
-# INDIA RUNS 2026: Intelligent Candidate Discovery
+# RankForge – Intelligent Candidate Ranking Engine
 
-### Award-Level Proof of Concept for Autonomous Recruitment
+### Candidate Discovery and Ranking System for INDIA RUNS 2026
 
-This project implements a state-of-the-art candidate ranking and discovery system for the India Runs 2026 challenge. It transforms raw candidate data into actionable intelligence using a multi-stage hybrid retrieval and semantic ranking pipeline.
+RankForge is an intelligent candidate ranking system designed to evaluate resumes using semantic understanding and multi-factor scoring instead of traditional keyword filtering.
+
+The system transforms raw candidate data into ranked, explainable recommendations through a hybrid retrieval and ranking pipeline.
 
 ---
 
 ## 🚀 Key Features
 
-*   **Hybrid Retrieval Pipeline**: 2-stage discovery using TF-IDF + BM25-lite followed by Semantic Reranking with `all-MiniLM-L6-v2`.
-*   **Explainable AI (XAI)**: Individual candidate decision snippets and comprehensive score breakdowns in a JSON-based XAI format.
-*   **Honeypot & Bias Detection**: Sophisticated detection for keyword stuffing, title mismatch, skill inflation, and AI-generated profiles.
-*   **Pure Production Focus**: Explicit scoring boosts for production attendance, ownership patterns, and deployment evidence.
-*   **High Performance**: Optimized with parquet caching and joblib parallelization to process 100k+ candidates in under 5 minutes on CPU only.
-*   **Premium Dashboard**: Glassmorphism-based React dashboard featuring real-time ranking logs, radar charts, and interactive explorer.
+* **Hybrid Ranking Pipeline**
+  Combines TF-IDF retrieval with semantic reranking using Sentence Transformers.
+
+* **Explainable Ranking**
+  Generates transparent score contributions and ranking explanations for each candidate.
+
+* **Multi-Factor Evaluation**
+  Uses multiple candidate signals beyond keyword matching.
+
+* **Profile Quality Detection**
+  Identifies suspicious, low-quality, or inflated candidate profiles.
+
+* **Offline Execution Support**
+  Runs without cloud APIs and supports local inference.
+
+* **Interactive Dashboard**
+  Includes leaderboard, metrics, candidate explorer, and explainability views.
 
 ---
 
-## 🛠 Architecture
+## 🛠 System Architecture
 
-### 1. Data Pipeline
-*   `loader.py`: High-speed ingestion with Parquet persistence.
-*   `flatten.py`: Parallelized record flattening and text normalization.
-*   `honeypot.py`: Trust discovery and fraud detection.
+### 1. Data Processing
 
-### 2. Analytical Engine
-*   `retrieval.py`: Stage 1 (Fast Retrieval) and Stage 2 (Semantic Ranking).
-*   `features.py`: Capability and Behavior signal extraction (Stages 3 & 4).
-*   `scoring.py`: Final award-level ranking formula (Stage 5) with boosts/penalties.
+* Candidate ingestion
+* Data normalization
+* Feature preparation
+
+Modules:
+
+* `loader.py`
+* `flatten.py`
+
+---
+
+### 2. Ranking Engine
+
+* Retrieval scoring
+* Semantic similarity
+* Feature extraction
+
+Modules:
+
+* `retrieval.py`
+* `features.py`
+* `scoring.py`
+
+---
 
 ### 3. Service Layer
-*   `backend/`: FastAPI REST service with caching and metrics.
-*   `frontend/`: Vite-powered React system with Tailwind and Recharts.
+
+* FastAPI backend
+* React frontend dashboard
+
+Folders:
+
+* `backend/`
+* `frontend/`
 
 ---
 
-## 📊 Ranking Formula
+## 📊 Multi-Factor Ranking Model
 
-The final score is a weighted combination of 7 distinct factors:
+Final score is computed using weighted signals.
 
-| Factor | Weight | Description |
-| :--- | :--- | :--- |
-| **Semantic** | 25% | Sentence Transformer similarity to JD |
-| **Retrieval** | 25% | Key skill match and TF-IDF density |
-| **Production** | 20% | Evidence of shipping real systems |
-| **Career** | 10% | Seniority, role fit, and company pedigree |
-| **Behavior** | 10% | Platform activity and recruiter responsiveness |
-| **Availability** | 5% | Notice period and open-to-work status |
-| **Trust** | 5% | Profile verification and assessment scores |
+| Factor             | Weight |
+| ------------------ | ------ |
+| Semantic Score     | 25%    |
+| Retrieval Score    | 25%    |
+| Production Score   | 20%    |
+| Career Score       | 10%    |
+| Behavior Score     | 10%    |
+| Availability Score | 5%     |
+| Trust Score        | 5%     |
+
+---
+
+## 🧠 Candidate Evaluation Logic
+
+The system evaluates:
+
+* Semantic relevance to Job Description
+* Technical skill alignment
+* Production experience evidence
+* Career progression
+* Behavioral indicators
+* Availability signals
+* Profile reliability
+
+Unlike traditional ATS systems, ranking is not based only on keyword matching.
 
 ---
 
 ## 🏃 How to Run
 
-### Automatic Startup (Windows)
+### Install Dependencies
+
 ```bash
-scripts/run_all.bat
+pip install -r requirements.txt
 ```
 
-### Manual Setup
-1.  **Dependencies**: `pip install -r requirements.txt`
-2.  **Ranking**: `python rank.py --root path/to/challenge`
-3.  **Backend**: `uvicorn backend.main:app`
-4.  **Frontend**: `cd frontend && npm install && npm run dev`
+### Execute Ranking
+
+```bash
+python rank.py
+```
+
+### Start Backend
+
+```bash
+uvicorn backend.main:app --reload
+```
+
+### Start Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ---
 
-## 📈 Performance Benchmarks (Target: <5 Min)
-*   **Loading**: ~15s (Parquet)
-*   **Feature Extraction**: ~45s (Joblib Parallel)
-*   **Retrieval**: ~60s (TF-IDF + BM25)
-*   **Semantic**: ~90s (Top 500 Reranking)
-*   **Total**: ~3.5 min (100k candidates)
+## 📡 API Endpoints
+
+| Endpoint          | Purpose                |
+| ----------------- | ---------------------- |
+| `/top100`         | View ranked candidates |
+| `/candidate/{id}` | Candidate details      |
+| `/metrics`        | Dashboard metrics      |
+| `/run`            | Execute ranking        |
+| `/validate`       | Validate submission    |
+| `/download`       | Download submission    |
 
 ---
 
-## 🛡 Verification
-The system automatically executes `validate_submission.py` after each run. To manually verify:
+## 📈 Performance
+
+Target Runtime: **< 5 minutes**
+
+Approximate execution:
+
+* Loading → ~15 sec
+* Feature Processing → ~45 sec
+* Retrieval → ~60 sec
+* Semantic Ranking → ~90 sec
+* Total → ~3–5 min (CPU)
+
+---
+
+## 📂 Repository Structure
+
+```text
+redrob-ai-recruiter/
+│
+├── backend/
+├── frontend/
+├── models/
+├── outputs/
+├── scripts/
+├── src/
+├── tests/
+├── utils/
+├── rank.py
+├── config.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 🛡 Validation
+
+Validate generated submission:
+
 ```bash
 python validate_submission.py submission.csv
 ```
+
+---
+
+## 📦 Submission Assets
+
+* GitHub Repository
+* Demo Video
+* submission.csv
+* Documentation
+* Validation Report
+
+---
+
+## 🏆 Project Goal
+
+Build an intelligent candidate ranking system that replaces traditional keyword-based filtering with explainable and scalable ranking methods.
+
+Designed for the INDIA RUNS 2026 challenge.
