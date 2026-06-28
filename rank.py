@@ -114,6 +114,7 @@ def main() -> None:
     submission.to_csv(output_path, index=False)
     validate_or_repair(root, output_path)
     log.info("Wrote valid submission: %s", output_path)
+    print("FINAL OUTPUT PATH:", output_path)
 
 
 if __name__ == "__main__":

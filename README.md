@@ -206,3 +206,8 @@ python validate_submission.py submission.csv
 Build an intelligent candidate ranking system that replaces traditional keyword-based filtering with explainable and scalable ranking methods.
 
 Designed for the INDIA RUNS 2026 challenge.
+
+## 🎥 Demo Video
+
+Watch the project demo here:
+https://youtu.be/9btYR6TO9sw
